@@ -1,14 +1,13 @@
-import 'package:flutter/material.dart'; // Widgets do Flutter.
-import 'package:sqflite/sqflite.dart'; // SQLite para Flutter.
-import 'package:path/path.dart'; // Manipulação de caminhos.
-import 'package:logger/logger.dart'; // Para logs e depuração.
+import 'package:sqflite/sqflite.dart'; // SQLite para Flutter
+import 'package:path/path.dart';
+import 'package:logger/logger.dart'; // Para logs e depuração
 
-final logger = Logger(); // Instância do Logger.
+final logger = Logger();
 
 class DBHelper {
   static const String _dbName = 'app_database.db'; // Nome do banco.
-  static const int _dbVersion = 1; // Versão do banco.
-  static const String _tableName = 'contacts'; // Nome da tabela.
+  static const int _dbVersion = 1;
+  static const String _tableName = 'contacts';
 
   // Singleton do banco de dados
   static Database? _database;
@@ -20,12 +19,12 @@ class DBHelper {
     return _database!;
   }
 
-  // Método para inicializar o banco de dados
+  // Metodo para inicializar o banco de dados
   static Future<Database> initDB() async {
-    final dbPath = await getDatabasesPath(); // Diretório padrão para bancos.
-    final path = join(dbPath, _dbName); // Caminho completo do banco.
+    final dbPath = await getDatabasesPath();
+    final path = join(dbPath, _dbName);
 
-    // Abre ou cria o banco de dados.
+    // Abre ou cria o banco de dados
     final db = await openDatabase(
       path,
       version: _dbVersion,
@@ -46,10 +45,10 @@ class DBHelper {
     return db;
   }
 
-  // Método para inserir dados
+  // Metodo para inserir dados
   static Future<int> insert(String nome, String telefone, String email) async {
     try {
-      final db = await database; // Usa a instância Singleton.
+      final db = await database; // Usa a instância Singleton
 
       if (nome.isEmpty || telefone.isEmpty || email.isEmpty) {
         throw Exception("Erro: Todos os campos são obrigatórios!");
@@ -69,11 +68,11 @@ class DBHelper {
     }
   }
 
-  // Método para buscar todos os contatos
+  // Metodo para buscar todos os contatos
   static Future<List<Map<String, dynamic>>> getAllContacts() async {
     try {
-      final db = await database; // Usa a instância Singleton.
-      final contacts = await db.query(_tableName); // Busca todos os contatos.
+      final db = await database; // Usa a instância Singleton
+      final contacts = await db.query(_tableName); // Busca todos os contatos
       logger.d("Contatos recuperados: $contacts");
 
       if (contacts.isEmpty) {
@@ -87,10 +86,10 @@ class DBHelper {
     }
   }
 
-  // Método para atualizar um contato
+  // Metodo para atualizar um contato
   static Future<int> updateContact(int id, String nome, String telefone, String email) async {
     try {
-      final db = await database; // Usa a instância Singleton.
+      final db = await database; // Usa a instância Singleton
 
       if (nome.isEmpty || telefone.isEmpty || email.isEmpty) {
         logger.d("Erro: Dados incompletos!");
@@ -116,10 +115,10 @@ class DBHelper {
     }
   }
 
-  // Método para deletar um contato
+  // Metodo para deletar um contato
   static Future<int> deleteContact(int id) async {
     try {
-      final db = await database; // Usa a instância Singleton.
+      final db = await database; // Usa a instância Singleton
 
       final rows = await db.delete(
         _tableName,

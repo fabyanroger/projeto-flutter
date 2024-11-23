@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_piapp/telas/ContactDetailsScreen.dart';
-import 'package:flutter_piapp/telas/AddContactScreen.dart';
-import 'package:flutter_piapp/telas/EditContactScreen.dart';
+import 'package:flutter_piapp/telas/contact_details_screen.dart';
+import 'package:flutter_piapp/telas/add_contact_screen.dart';
+import 'package:flutter_piapp/telas/edit_contact_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_piapp/db/DatabaseManager.dart';
+import 'package:flutter_piapp/db/database_manager.dart';
 
 class TelaInicial extends StatefulWidget {
   const TelaInicial({super.key});
@@ -27,10 +27,10 @@ class _TelaInicialState extends State<TelaInicial> {
     setState(() { // Atualiza o estado com a lista de contatos
       _usuarios = usuariosDb
           .map((usuario) => { // Converte os dados para Map<String, String>
-        'id': usuario['id'].toString(),           // Converte o id para String
-        'nome': usuario['nome'].toString(),       // Converte o nome para String
-        'telefone': usuario['telefone'].toString(), // Converte o telefone para String
-        'email': usuario['email'].toString(),     // Converte o email para String
+        'id': usuario['id'].toString(),
+        'nome': usuario['nome'].toString(),
+        'telefone': usuario['telefone'].toString(),
+        'email': usuario['email'].toString(),
       }).toList();
     });
   }
@@ -63,14 +63,14 @@ class _TelaInicialState extends State<TelaInicial> {
   Widget build(BuildContext context) { // Define a interface de usuário
     return Scaffold(
       appBar: AppBar( // Barra superior da aplicação
-        title: Row( // Organiza o título e imagem em uma linha
+        title: Row(
           children: [
-            SvgPicture.asset( // Exibe o logo em SVG
+            SvgPicture.asset( // Exibindo a logo em SVG
               'assets/images/puc-goias.svg',
-              height: 32, // Define a altura do logo
+              height: 32, // Definindo a altura do logo
             ),
             const SizedBox(width: 10), // Espaço entre o logo e o texto
-            const Text( // Texto do título
+            const Text(
               'Lista de Pessoas',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
@@ -83,7 +83,7 @@ class _TelaInicialState extends State<TelaInicial> {
       ),
       body: _usuarios.isEmpty // Verifica se há contatos
           ? const Center(child: Text('Nenhuma pessoa adicionada.')) // Mensagem quando a lista está vazia
-          : ListView.builder( // Cria uma lista com base nos contatos
+          : ListView.builder(
         itemCount: _usuarios.length, // Número de itens na lista
         itemBuilder: (context, index) { // Constrói cada item
           final usuario = _usuarios[index]; // Contato atual
@@ -123,7 +123,7 @@ class _TelaInicialState extends State<TelaInicial> {
               );
 
               if (action == 'Detalhes') { // Caso o usuário escolha "Detalhes"
-                await Navigator.push( // Navega para a tela de detalhes
+                await Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => DetalhesTela(
@@ -134,7 +134,7 @@ class _TelaInicialState extends State<TelaInicial> {
                   ),
                 );
               } else if (action == 'Editar') { // Caso escolha "Editar"
-                final editedUser = await Navigator.push( // Navega para a tela de edição
+                final editedUser = await Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => EditarTela(
