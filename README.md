@@ -28,6 +28,9 @@ Este projeto tem como objetivo o desenvolvimento de um aplicativo móvel que per
 
 4. Execute o aplicativo:
    `flutter run`
+
+**Nota:** Certifique-se de ter o [Flutter](https://flutter.dev/docs/get-started/install) e o [Android Studio](https://developer.android.com/studio) instalados.
+
 ## Capturas de Tela
 
 Aqui estão algumas capturas de tela do aplicativo:
@@ -44,3 +47,33 @@ Aqui estão algumas capturas de tela do aplicativo:
   <img src="screenshots/tela_exclusao.png" width="300" />
 </div>
 
+## Integrantes do Projeto
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/fabyanroger">
+        <img src="https://github.com/fabyanroger.png" width="100px;" alt="Fabyan Roger Profile Picture"/><br>
+        <sub>
+          <b>Fabyan Roger</b>
+        </sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="#">
+        <img src="URL" width="100px;" alt="Pessoa2 Profile Picture"/><br>
+        <sub>
+          <b>Nome do Segundo Integrante</b>
+        </sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="#">
+        <img src="URL" width="100px;" alt="Pessoa3 Profile Picture"/><br>
+        <sub>
+          <b>Nome do Terceiro Integrante</b>
+        </sub>
+      </a>
+    </td>
+  </tr>
+</table>
