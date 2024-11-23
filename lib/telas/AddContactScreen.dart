@@ -44,7 +44,7 @@ class _AdicionarTelaState extends State<AdicionarTela> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Adicionar ou Editar Pessoa'),
+        title: const Text('Adicionar'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
