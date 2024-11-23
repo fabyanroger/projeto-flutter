@@ -13,10 +13,10 @@ class EditarTela extends StatefulWidget {
   });
 
   @override
-  _EditarTelaState createState() => _EditarTelaState();
+  EditarTelaState createState() => EditarTelaState();
 }
 
-class _EditarTelaState extends State<EditarTela> {
+class EditarTelaState extends State<EditarTela> {
   final TextEditingController _nomeController = TextEditingController();
   final TextEditingController _telefoneController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
