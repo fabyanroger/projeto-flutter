@@ -28,3 +28,18 @@ Este projeto tem como objetivo o desenvolvimento de um aplicativo móvel que per
 
 4. Execute o aplicativo:
    `flutter run`
+## Capturas de Tela
+
+Aqui estão algumas capturas de tela do aplicativo:
+
+### Tela de Cadastro
+![Tela de Cadastro](screenshots/tela_cadastro.png)
+
+### Tela de Listagem
+![Tela de Listagem](screenshots/tela_listagem.png)
+
+### Tela de Edição
+![Tela de Edição](screenshots/tela_edicao.png)
+
+### Tela de Exclusão
+![Tela de Exclusão](screenshots/tela_exclusao.png)
