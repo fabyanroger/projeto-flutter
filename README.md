@@ -1,16 +1,30 @@
-# flutter_piapp
+# Projeto Integrador - Gerenciamento de Contatos
 
-Projeto em Flutter para PI-VA
+## Objetivo
+Este projeto tem como objetivo o desenvolvimento de um aplicativo móvel que permita realizar operações de **CRUD** (Create, Read, Update, Delete) em um banco de dados local. O aplicativo gerencia uma lista de contatos pessoais, permitindo que o usuário adicione, consulte, altere e exclua informações.
 
-## Getting Started
+## Funcionalidades
 
-This project is a starting point for a Flutter application.
+- **Cadastro de Contato:** Permite adicionar novos contatos com nome, telefone e e-mail.
+- **Listagem de Contatos:** Exibe todos os contatos cadastrados, permitindo visualizar, editar ou excluir.
+- **Edição de Contato:** Permite editar os dados de um contato existente.
+- **Exclusão de Contato:** Permite excluir um contato após confirmação.
 
-A few resources to get you started if this is your first Flutter project:
+## Tecnologias Usadas
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- **Flutter** (para desenvolvimento mobile)
+- **SQLite** (banco de dados local)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Como Rodar o Projeto
+
+1. Clone o repositório:
+   `git clone git@github.com:fabyanroger/projeto-flutter.git`
+
+2. Entre no diretório do projeto:
+   `cd projeto-flutter`
+
+3. Instale as dependências:
+   `flutter pub get`
+
+4. Execute o aplicativo:
+   `flutter run`
