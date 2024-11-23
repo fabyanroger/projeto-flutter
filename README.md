@@ -33,13 +33,13 @@ Este projeto tem como objetivo o desenvolvimento de um aplicativo móvel que per
 Aqui estão algumas capturas de tela do aplicativo:
 
 ### Tela de Cadastro
-<img src="screenshots/tela_cadastro.png" width="200" />
+<img src="screenshots/tela_cadastro.png" width="300" />
 
 ### Tela de Listagem
-<img src="screenshots/tela_listagem.png" width="500" />
+<img src="screenshots/tela_listagem.png" width="300" />
 
 ### Tela de Edição
-<img src="screenshots/tela_edicao.png" width="500" />
+<img src="screenshots/tela_edicao.png" width="300" />
 
 ### Tela de Exclusão
-<img src="screenshots/tela_exclusao.png" width="500" />
+<img src="screenshots/tela_exclusao.png" width="300" />
