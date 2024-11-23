@@ -33,7 +33,7 @@ Este projeto tem como objetivo o desenvolvimento de um aplicativo móvel que per
 Aqui estão algumas capturas de tela do aplicativo:
 
 ### Tela de Cadastro
-<img src="screenshots/tela_cadastro.png" width="500" />
+<img src="screenshots/tela_cadastro.png" width="200" />
 
 ### Tela de Listagem
 <img src="screenshots/tela_listagem.png" width="500" />
