@@ -24,9 +24,9 @@ class _TelaInicialState extends State<TelaInicial> {
   // Função para carregar os contatos do banco de dados
   void _loadUsuarios() async {
     final List<Map<String, dynamic>> usuariosDb = await DBHelper.getAllContacts(); // Busca contatos do banco
-    setState(() { // Atualiza o estado com a lista de contatos
+    setState(() {
       _usuarios = usuariosDb
-          .map((usuario) => { // Converte os dados para Map<String, String>
+          .map((usuario) => {
         'id': usuario['id'].toString(),
         'nome': usuario['nome'].toString(),
         'telefone': usuario['telefone'].toString(),
@@ -38,25 +38,25 @@ class _TelaInicialState extends State<TelaInicial> {
   // Função para adicionar um novo contato
   void _adicionarUsuario(String nome, String telefone, String email) async {
     final id = await DBHelper.insert(nome, telefone, email); // Insere o contato no banco
-    if (id != -1) { // Se o ID for válido, recarrega a lista de contatos
+    if (id != -1) {
       _loadUsuarios();
     }
   }
 
   // Função para remover um contato
   void _removerUsuario(int index) async {
-    final usuario = _usuarios[index]; // Obtém o contato pelo índice
-    final id = int.parse(usuario['id']!); // Converte o ID para inteiro
+    final usuario = _usuarios[index];
+    final id = int.parse(usuario['id']!);
     await DBHelper.deleteContact(id); // Remove o contato do banco
-    _loadUsuarios(); // Recarrega a lista de contatos
+    _loadUsuarios();
   }
 
   // Função para editar um contato
   void _editarUsuario(int index, String nome, String telefone, String email) async {
-    final usuario = _usuarios[index]; // Obtém o contato pelo índice
-    final id = int.parse(usuario['id']!); // Converte o ID para inteiro
+    final usuario = _usuarios[index];
+    final id = int.parse(usuario['id']!);
     await DBHelper.updateContact(id, nome, telefone, email); // Atualiza o contato no banco
-    _loadUsuarios(); // Recarrega a lista de contatos
+    _loadUsuarios();
   }
 
   @override
@@ -74,12 +74,12 @@ class _TelaInicialState extends State<TelaInicial> {
               'Lista de Pessoas',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                color: Colors.white, // Cor do texto
+                color: Colors.white,
               ),
             ),
           ],
         ),
-        backgroundColor: Colors.blueAccent, // Cor de fundo do AppBar
+        backgroundColor: Colors.blueAccent,
       ),
       body: _usuarios.isEmpty // Verifica se há contatos
           ? const Center(child: Text('Nenhuma pessoa adicionada.')) // Mensagem quando a lista está vazia
