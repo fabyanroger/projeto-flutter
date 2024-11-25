@@ -166,7 +166,7 @@ class _TelaInicialState extends State<TelaInicial> {
             ),
           );
 
-          if (!mounted) return; // Verifica novamente após a navegação
+          if (!mounted) return;
 
           if (novoUsuario != null) { // Caso receba um novo contato, adiciona
             _adicionarUsuario(
