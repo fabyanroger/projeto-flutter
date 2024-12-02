@@ -60,18 +60,18 @@ Aqui estão algumas capturas de tela do aplicativo:
       </a>
     </td>
     <td align="center">
-      <a href="#">
-        <img src="URL" width="100px;" alt="Pessoa2 Profile Picture"/><br>
+      <a href="https://github.com/karolinaogb">
+        <img src="https://github.com/karolinaogb.png" width="100px;" alt="Karolina Borges"/><br>
         <sub>
-          <b>Nome do Segundo Integrante</b>
+          <b>Karolina Borges</b>
         </sub>
       </a>
     </td>
     <td align="center">
-      <a href="#">
-        <img src="URL" width="100px;" alt="Pessoa3 Profile Picture"/><br>
+      <a href="https://github.com/BarrosByte">
+        <img src="https://github.com/BarrosByte.png" width="100px;" alt="Pedro Henrique"/><br>
         <sub>
-          <b>Nome do Terceiro Integrante</b>
+          <b>Pedro Henrique</b>
         </sub>
       </a>
     </td>
