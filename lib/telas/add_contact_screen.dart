@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class AdicionarTela extends StatefulWidget {
   final String? nome;
@@ -16,6 +17,9 @@ class _AdicionarTelaState extends State<AdicionarTela> {
   final TextEditingController _telefoneController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
 
+  // Máscara para o campo de telefone (formato: (XX) XXXXX-XXXX)
+  var telefoneMask = MaskTextInputFormatter(mask: "(##) #####-####", filter: {"#": RegExp(r'[0-9]')});
+
   @override
   void initState() {
     super.initState();
@@ -26,16 +30,33 @@ class _AdicionarTelaState extends State<AdicionarTela> {
   }
 
   void _salvar() {
-    // Verifica se nome e telefone não estão vazios
+    // Verifica se nome, telefone e email não estão vazios
     if (_nomeController.text.isNotEmpty && _telefoneController.text.isNotEmpty && _emailController.text.isNotEmpty) {
+      // Salva as informações e retorna para a tela anterior
       Navigator.pop(context, {
         'nome': _nomeController.text,
         'telefone': _telefoneController.text,
         'email': _emailController.text,
       });
-    } else {
+
+      // Exibe uma notificação de sucesso
+      ScaffoldMessenger.of(context).clearSnackBars(); // Remove qualquer SnackBar anterior
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Nome, telefone e e-mail são obrigatórios')),
+        const SnackBar(
+          content: Text('Contato salvo com sucesso!'),
+          backgroundColor: Colors.green, // Cor verde para sucesso
+          duration: Duration(seconds: 2),
+        ),
+      );
+    } else {
+      // Exibe uma notificação de erro caso algum campo não esteja preenchido
+      ScaffoldMessenger.of(context).clearSnackBars(); // Remove qualquer SnackBar anterior
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Nome, telefone e e-mail são obrigatórios'),
+          backgroundColor: Colors.red, // Cor vermelha para erro
+          duration: Duration(seconds: 2),
+        ),
       );
     }
   }
@@ -55,10 +76,12 @@ class _AdicionarTelaState extends State<AdicionarTela> {
               decoration: const InputDecoration(labelText: 'Nome'),
             ),
             const SizedBox(height: 10),
+            // Campo de Telefone com máscara
             TextField(
               controller: _telefoneController,
               decoration: const InputDecoration(labelText: 'Telefone'),
               keyboardType: TextInputType.phone,
+              inputFormatters: [telefoneMask], // Aplica a máscara
             ),
             const SizedBox(height: 10),
             TextField(

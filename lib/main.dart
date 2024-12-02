@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_piapp/telas/contact_list_screen.dart';
+import 'package:lista_puc_go/telas/contact_list_screen.dart';
 import 'db/database_manager.dart';
 
 void main() async {

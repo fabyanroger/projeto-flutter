@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_piapp/telas/contact_details_screen.dart';
-import 'package:flutter_piapp/telas/add_contact_screen.dart';
-import 'package:flutter_piapp/telas/edit_contact_screen.dart';
+import 'package:lista_puc_go/telas/contact_details_screen.dart';
+import 'package:lista_puc_go/telas/add_contact_screen.dart';
+import 'package:lista_puc_go/telas/edit_contact_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_piapp/db/database_manager.dart';
+import 'package:lista_puc_go/db/database_manager.dart';
 
 class TelaInicial extends StatefulWidget {
   const TelaInicial({super.key});
@@ -16,7 +16,7 @@ class _TelaInicialState extends State<TelaInicial> {
   List<Map<String, String>> _usuarios = []; // Lista de contatos carregados do banco
 
   @override
-  void initState() { // Inicializa o estado do widget ao ser carregado
+  void initState() {
     super.initState();
     _loadUsuarios(); // Carrega os contatos do banco de dados
   }
@@ -25,8 +25,7 @@ class _TelaInicialState extends State<TelaInicial> {
   void _loadUsuarios() async {
     final List<Map<String, dynamic>> usuariosDb = await DBHelper.getAllContacts(); // Busca contatos do banco
     setState(() {
-      _usuarios = usuariosDb
-          .map((usuario) => {
+      _usuarios = usuariosDb.map((usuario) => {
         'id': usuario['id'].toString(),
         'nome': usuario['nome'].toString(),
         'telefone': usuario['telefone'].toString(),
@@ -39,7 +38,22 @@ class _TelaInicialState extends State<TelaInicial> {
   void _adicionarUsuario(String nome, String telefone, String email) async {
     final id = await DBHelper.insert(nome, telefone, email); // Insere o contato no banco
     if (id != -1) {
-      _loadUsuarios();
+      _loadUsuarios(); // Atualiza a lista de contatos
+
+      // Exibe uma notificação para o usuário
+      if (mounted) {
+        ScaffoldMessenger.of(context).clearSnackBars(); // Limpa qualquer snack bar anterior
+        ScaffoldMessenger.of(context).showSnackBar( // Exibe o SnackBar
+          SnackBar(
+            content: Text(
+              'Contato $nome adicionado com sucesso!',
+              style: const TextStyle(color: Colors.white),
+            ),
+            backgroundColor: Colors.green, // Notificação na cor verde
+            duration: const Duration(seconds: 3),
+          ),
+        );
+      }
     }
   }
 
@@ -48,7 +62,22 @@ class _TelaInicialState extends State<TelaInicial> {
     final usuario = _usuarios[index];
     final id = int.parse(usuario['id']!);
     await DBHelper.deleteContact(id); // Remove o contato do banco
-    _loadUsuarios();
+    _loadUsuarios(); // Atualiza a lista de contatos
+
+    // Exibe uma notificação com fundo vermelho
+    if (mounted) {
+      ScaffoldMessenger.of(context).clearSnackBars();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Contato ${usuario['nome']} removido com sucesso!',
+            style: const TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Colors.red,
+          duration: const Duration(seconds: 3),
+        ),
+      );
+    }
   }
 
   // Função para editar um contato
@@ -56,20 +85,35 @@ class _TelaInicialState extends State<TelaInicial> {
     final usuario = _usuarios[index];
     final id = int.parse(usuario['id']!);
     await DBHelper.updateContact(id, nome, telefone, email); // Atualiza o contato no banco
-    _loadUsuarios();
+    _loadUsuarios(); // Atualiza a lista de contatos
+
+    // Exibe uma notificação com fundo verde
+    if (mounted) {
+      ScaffoldMessenger.of(context).clearSnackBars();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Contato ${usuario['nome']} atualizado com sucesso!',
+            style: const TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Colors.green,
+          duration: const Duration(seconds: 3),
+        ),
+      );
+    }
   }
 
   @override
-  Widget build(BuildContext context) { // Define a interface de usuário
+  Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar( // Barra superior da aplicação
+      appBar: AppBar(
         title: Row(
           children: [
-            SvgPicture.asset( // Exibindo a logo em SVG
+            SvgPicture.asset(
               'assets/images/puc-goias.svg',
-              height: 32, // Definindo a altura do logo
+              height: 32,
             ),
-            const SizedBox(width: 10), // Espaço entre o logo e o texto
+            const SizedBox(width: 10),
             const Text(
               'Lista de Pessoas',
               style: TextStyle(
@@ -81,102 +125,117 @@ class _TelaInicialState extends State<TelaInicial> {
         ),
         backgroundColor: Colors.blueAccent,
       ),
-      body: _usuarios.isEmpty // Verifica se há contatos
-          ? const Center(child: Text('Nenhuma pessoa adicionada.')) // Mensagem quando a lista está vazia
+      body: _usuarios.isEmpty
+          ? const Center(child: Text('Nenhuma pessoa adicionada.'))
           : ListView.builder(
-        itemCount: _usuarios.length, // Número de itens na lista
-        itemBuilder: (context, index) { // Constrói cada item
-          final usuario = _usuarios[index]; // Contato atual
-          return ListTile(
-            title: Text(usuario['nome']!), // Nome do contato
-            onTap: () async { // Ação ao tocar no item
-              if (!mounted) return; // Verifica se o widget está montado
+        itemCount: _usuarios.length,
+        itemBuilder: (context, index) {
+          // Ordena os usuários por nome (alfabética)
+          _usuarios.sort((a, b) => a['nome']!.compareTo(b['nome']!)); // Ordenação alfabética
 
-              // Mostra opções ao usuário
-              final action = await showDialog<String>(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text('O que você gostaria de fazer?'), // Título do diálogo
-                    actions: <Widget>[
-                      TextButton( // Botão para visualizar detalhes
-                        onPressed: () {
-                          Navigator.pop(context, 'Detalhes'); // Fecha o diálogo com "Detalhes"
-                        },
-                        child: const Text('Visualizar Detalhes'),
+          final usuario = _usuarios[index];
+          final isEven = index % 2 == 0;
+
+          return Container(
+            color: isEven ? Colors.white : Colors.grey[100],
+            child: ListTile(
+              title: Text(usuario['nome']!),
+              onTap: () async {
+                if (!mounted) return;
+
+                final action = await showModalBottomSheet<String>(
+                  context: context,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                  ),
+                  builder: (context) {
+                    return Container(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            'Contato: ${usuario['nome']}',
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          ListTile(
+                            leading: const Icon(Icons.info_outline, color: Colors.blue),
+                            title: const Text('Visualizar Detalhes'),
+                            onTap: () => Navigator.pop(context, 'Detalhes'),
+                          ),
+                          const Divider(),
+                          ListTile(
+                            leading: const Icon(Icons.edit, color: Colors.orange),
+                            title: const Text('Editar'),
+                            onTap: () => Navigator.pop(context, 'Editar'),
+                          ),
+                          const Divider(),
+                          ListTile(
+                            leading: const Icon(Icons.delete, color: Colors.red),
+                            title: const Text('Excluir'),
+                            onTap: () => Navigator.pop(context, 'Excluir'),
+                          ),
+                        ],
                       ),
-                      TextButton( // Botão para editar
-                        onPressed: () {
-                          Navigator.pop(context, 'Editar'); // Fecha o diálogo com "Editar"
-                        },
-                        child: const Text('Editar'),
+                    );
+                  },
+                );
+
+                // Ações baseadas na escolha do usuário
+                if (action == 'Detalhes') {
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DetalhesTela(
+                        nome: usuario['nome']!,
+                        telefone: usuario['telefone']!,
+                        email: usuario['email']!,
                       ),
-                      TextButton( // Botão para excluir
-                        onPressed: () {
-                          Navigator.pop(context, 'Excluir'); // Fecha o diálogo com "Excluir"
-                        },
-                        child: const Text('Excluir'),
-                      ),
-                    ],
+                    ),
                   );
-                },
-              );
-
-              if (action == 'Detalhes') { // Caso o usuário escolha "Detalhes"
-                await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => DetalhesTela(
-                      nome: usuario['nome']!,
-                      telefone: usuario['telefone']!,
-                      email: usuario['email']!,
+                } else if (action == 'Editar') {
+                  final editedUser = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EditarTela(
+                        nome: usuario['nome']!,
+                        telefone: usuario['telefone']!,
+                        email: usuario['email']!,
+                      ),
                     ),
-                  ),
-                );
-              } else if (action == 'Editar') { // Caso escolha "Editar"
-                final editedUser = await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => EditarTela(
-                      nome: usuario['nome']!,
-                      telefone: usuario['telefone']!,
-                      email: usuario['email']!,
-                    ),
-                  ),
-                );
+                  );
 
-                if (editedUser != null) { // Se houver alterações, atualiza o contato
-                  _editarUsuario(index, editedUser['nome'], editedUser['telefone'], editedUser['email']);
+                  if (editedUser != null) {
+                    _editarUsuario(index, editedUser['nome'], editedUser['telefone'], editedUser['email']);
+                  }
+                } else if (action == 'Excluir') {
+                  _removerUsuario(index);
                 }
-              } else if (action == 'Excluir') { // Caso escolha "Excluir"
-                _removerUsuario(index); // Remove o contato
-              }
-            },
+              },
+            ),
           );
         },
       ),
-      floatingActionButton: FloatingActionButton( // Botão flutuante para adicionar contatos
+      floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          if (!mounted) return; // Verifica se o widget está montado
+          if (!mounted) return;
 
-          final novoUsuario = await Navigator.push( // Navega para a tela de adicionar contato
+          final novoUsuario = await Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => const AdicionarTela(),
             ),
           );
 
-          if (!mounted) return;
-
-          if (novoUsuario != null) { // Caso receba um novo contato, adiciona
-            _adicionarUsuario(
-              novoUsuario['nome'],
-              novoUsuario['telefone'],
-              novoUsuario['email'],
-            );
+          if (novoUsuario != null) {
+            _adicionarUsuario(novoUsuario['nome'], novoUsuario['telefone'], novoUsuario['email']);
           }
         },
-        child: const Icon(Icons.add), // Ícone do botão
+        child: const Icon(Icons.add),
       ),
     );
   }
